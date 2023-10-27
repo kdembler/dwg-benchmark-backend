@@ -5,6 +5,7 @@ import { getEsClient } from "./config.js";
 
 const app = express();
 app.use(express.json());
+app.set("trust proxy", true);
 
 const esClient = await getEsClient();
 if (!esClient) {
@@ -28,7 +29,11 @@ app.post("/data", async (req, res) => {
   try {
     const body = validationResult.data.flatMap((result) => [
       { index: { _index: "distributors-benchmark" } },
-      result,
+      {
+        ...result,
+        sourceIp: req.ip,
+        timestamp: new Date().toISOString(),
+      },
     ]);
     await esClient!.bulk({ body });
     res.status(201).end();
