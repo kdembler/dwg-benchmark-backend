@@ -6,12 +6,16 @@ const fullResultSchema = z.object({
   downloadTime: z.number(),
   downloadSpeedBps: z.number(),
   downloadSize: z.number(),
+  dnsLookupTime: z.number().optional(),
+  sslTime: z.number().optional(),
+  processingTime: z.number().optional(),
   url: z.string().url(),
   cacheStatus: z.string(),
   objectType: z.string(),
   uid: z.string().uuid(),
   referenceDownloadSpeedBps: z.number(),
   referenceLatency: z.number(),
+  version: z.string(),
 });
 
 const errorResultSchema = z.object({
