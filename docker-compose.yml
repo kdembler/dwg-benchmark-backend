@@ -1,0 +1,10 @@
+version: "3.7"
+
+services:
+  dwg-benchmark-backend:
+    build: .
+    container_name: dwg-benchmark-backend
+    environment:
+      - ELASTICSEARCH_URL=${ELASTICSEARCH_URL}
+      - ELASTICSEARCH_USERNAME=${ELASTICSEARCH_USERNAME}
+      - ELASTICSEARCH_PASSWORD=${ELASTICSEARCH_PASSWORD}
