@@ -37,6 +37,7 @@ app.post("/", async (req, res) => {
       { index: { _index: "distributors-benchmark" } },
       {
         ...result,
+        urlOrigin: new URL(result.url).origin,
         sourceIp: req.ip,
         timestamp: new Date().toISOString(),
       },
