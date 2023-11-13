@@ -27,6 +27,7 @@ app.post("/", async (req, res) => {
   const validationResult = bodySchema.safeParse(req.body);
 
   if (!validationResult.success) {
+    console.error(validationResult.error);
     res.status(400).json({ error: validationResult.error });
     return;
   }
