@@ -35,20 +35,17 @@ app.post("/", async (req, res) => {
   try {
     const body = validationResult.data.flatMap((result) => {
       let normalizedDownloadSpeed;
-      let normalizedLatency;
       if (!("error" in result)) {
         normalizedDownloadSpeed = Math.min(
           result.downloadSpeedBps / result.referenceDownloadSpeedBps,
           1
         );
-        normalizedLatency = Math.min(result.ttfb / result.referenceLatency, 1);
       }
       return [
         { index: { _index: "distributors-benchmark" } },
         {
           ...result,
           normalizedDownloadSpeed,
-          normalizedLatency,
           urlOrigin: new URL(result.url).origin,
           sourceIp: req.ip,
           timestamp: new Date().toISOString(),
