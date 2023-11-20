@@ -2,6 +2,7 @@ import express from "express";
 import rateLimit from "express-rate-limit";
 import cors from "cors";
 import morgan from "morgan";
+import { v4 as uuid4 } from "uuid";
 import { bodySchema } from "./schema.js";
 import { getEsClient } from "./config.js";
 
@@ -33,6 +34,7 @@ app.post("/", async (req, res) => {
   }
 
   try {
+    const id = uuid4();
     const body = validationResult.data.flatMap((result) => {
       let normalizedDownloadSpeed;
       if (!("error" in result)) {
@@ -45,6 +47,7 @@ app.post("/", async (req, res) => {
         { index: { _index: "distributors-benchmark" } },
         {
           ...result,
+          id,
           normalizedDownloadSpeed,
           urlOrigin: new URL(result.url).origin,
           sourceIp: req.ip,
